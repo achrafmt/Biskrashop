@@ -63,22 +63,21 @@ function addToCartClicked(event) {
     var price = shopItem.getElementsByClassName('item_price')[0].innerText
     var imageSrc = shopItem.getElementsByClassName('item_thumb')[0].src
     var quantity = shopItem.getElementsByClassName('item_Quantity')[0].value
-    console.log(title, price, imageSrc, quantity)
     addItemToCart(title, price, imageSrc, quantity)
 }
 
 function addItemToCart(title, price, imageSrc, quantity) {
-    var cartRow = document.createElement('tr')
+    var cartRow = document.createElement('tbody')
     var cartItems = document.getElementsByClassName('cart-item-container')[0]
     var cartRowContents = `
-        <tr class="itemRow row-0 odd" id="cartItem_SCI-2">
-            <td class="item-thumb"><img src="./Biskra Shop_files/igTmJ9J2kAiSZT4sIEfZumaw0oTFBQADdXxiAbJS.png"></td>
-            <td class="item-name"></td>
-            <td class="item-price">$580</td>
+         <tr class="itemRow">
+            <td class="item-thumb"><img src="${imageSrc}"></td>
+            <td class="item-name">${title}</td>
+            <td class="item-price">${price}</td>
             <td class="item-decrement"><a href="javascript:;" class="simpleCart_decrement">-</a></td>
-            <td class="item-quantity">1</td>
+            <td class="item-quantity">${quantity}</td>
             <td class="item-increment"><a href="javascript:;" class="simpleCart_increment">+</a></td>
-            <td class="item-total">$580</td>
+            <td class="item-total">0</td>
             <td class="item-remove"><a href="javascript:;" class="simpleCart_remove">Remove</a></td>
         </tr>`
     cartRow.innerHTML = cartRowContents
