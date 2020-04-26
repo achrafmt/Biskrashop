@@ -1,11 +1,11 @@
 if (document.readyState == 'loading') {
-    document.addEventListener('DOMContentLoaded', ready)
+    document.addEventListener('DOMContentLoaded', ready())
 } else {
     ready()
 }
 function ready () {
+    getProductFromLS()
     var CloseItemButton = document.getElementsByClassName('simpleCart_remove')
-
     for (var i = 0; i < CloseItemButton.length; i++) {
         var button = CloseItemButton[i]
         button.addEventListener('click', removeCartItem)
@@ -39,16 +39,27 @@ function ready () {
  
 }
 
-
 function removeCartItem (event) {
     var buttonClicked = event.target
-    buttonClicked.parentElement.parentElement.remove()
-    updateCartTotal()
+    var itemRemoved = buttonClicked.parentElement.parentElement
+    var shopItemId = itemRemoved.getElementsByClassName('item-name')[0].id
+    if (localStorage.getItem('CartItem')) {
+        itemCart = JSON.parse(localStorage.getItem('CartItem'))
+        for (var i = 0; i < itemCart.length; i++){
+            if (itemCart[i].productID === shopItemId){
+                itemCart = itemCart.slice(i+1)  
+            }
+        }
+    }
+    itemRemoved.remove()
+    syncLS(itemCart)
+    updateCartTotal() 
 }
 
 function PlusButtonClicked(event) {
     var PlusButtonClicked = event.target
     var quantityItemRow = PlusButtonClicked.parentElement.parentElement
+    var img = PlusButtonClicked.parentElement
     var quantityItemRowValue = parseFloat (quantityItemRow.getElementsByClassName('item-quantity')[0].innerText)
     quantityItemRowValue = quantityItemRowValue + 1
     quantityItemRow.getElementsByClassName('item-quantity')[0].innerText = quantityItemRowValue
@@ -70,25 +81,29 @@ function lessButtonClicked(event) {
 function addToCartClicked(event) {
     var button = event.target
     var shopItem = button.parentElement.parentElement
+    var shopItemId = shopItem.parentElement.getElementsByClassName('post-body')[0].id
     var title = shopItem.getElementsByClassName('post-title')[0].innerText
     var price = shopItem.getElementsByClassName('item_price')[0].innerText
     var imageSrc = shopItem.getElementsByClassName('item_thumb')[0].src
     var quantity = shopItem.getElementsByClassName('item_Quantity')[0].value
-    addItemToCart(title, price, imageSrc, quantity)
-    updateCartTotal()
+    addItemToCart(title, price, imageSrc, quantity, shopItemId)
+    
+ 
 }
 
 function addToCartClicked2(event) {
     var button = event.target
     var postBody = document.getElementsByClassName('post-body')[0]
+    var shopItemId = document.getElementsByClassName('post-body')[0].id
     var title = postBody.getElementsByClassName('post-title')[0].innerText
     var priceElement = postBody.getElementsByClassName('item_price')[0].innerText
     var reg = /\d+/g
     var price = priceElement.match(reg)[0]
     var imageSrc = postBody.getElementsByClassName('item_thumb')[0].src
     var quantity = postBody.getElementsByClassName('item_Quantity')[0].value
-    addItemToCart(title , price, imageSrc, quantity)
-    updateCartTotal()
+    addItemToCart(title, price, imageSrc, quantity, shopItemId)
+    
+
 }
 
 function cartButtonClicked(event) {
@@ -102,11 +117,12 @@ document.getElementById('030321').setAttribute("style", "display:block")
 document.getElementById('030321').classList.add('active')
 }
 
-
-function addItemToCart(title, price, imageSrc, quantity) {
+function addItemToCart(title, price, imageSrc, quantity, shopItemId) {
     var cartRow = document.createElement('tr')
     cartRow.classList.add('itemRow')
+    cartRow.setAttribute('id', shopItemId)
     var cartItems = document.getElementsByClassName('cart-item-container')[0]
+    console.log(cartItems)
     var cartItemNames = cartItems.getElementsByClassName('item-name')
     for (var i = 0; i < cartItemNames.length; i++) {
         if (cartItemNames[i].innerText == title) {
@@ -115,8 +131,8 @@ function addItemToCart(title, price, imageSrc, quantity) {
     }
     var cartRowContents = `
          <tr class="itemRow">
-            <td class="item-thumb"><img src="${imageSrc}"></td>
-            <td class="item-name">${title}</td>
+            <td class="item-thumb"><img class="item-img" src="${imageSrc}"></td>
+            <td class="item-name" id="${shopItemId}">${title}</td>
             <td class="item-price">${price}</td>
             <td class="item-decrement"><a href="javascript:;" class="simpleCart_decrement">-</a></td>
             <td class="item-quantity">${quantity}</td>
@@ -130,13 +146,15 @@ function addItemToCart(title, price, imageSrc, quantity) {
     cartRow.getElementsByClassName('simpleCart_remove')[0].addEventListener('click', removeCartItem)
     cartRow.getElementsByClassName('item-increment')[0].addEventListener('click', PlusButtonClicked)
     cartRow.getElementsByClassName('item-decrement')[0].addEventListener('click', lessButtonClicked)
-
+   
+    
+    
 }
 
 function updateCartTotal() {
     var cartItemContainer = document.getElementsByClassName('simpleCart_items')[0]
-    var cartRows = cartItemContainer.getElementsByClassName('itemRow')
-    document.getElementsByClassName('simpleCart_quantity')[0].innerText = cartRows.length 
+    var cartRows = cartItemContainer.getElementsByClassName('itemRow') 
+    document.getElementsByClassName('simpleCart_quantity')[0].innerText = cartRows.length
     var total = 0
     for (i = 0; i < cartRows.length; i++) {
         var cartRow = cartRows[i]
@@ -146,8 +164,68 @@ function updateCartTotal() {
         var quantity = parseFloat(quantityElement.innerText)
         cartRow.getElementsByClassName('item-total')[0].innerText = (price * quantity) + 'دج'
         total = total + ( price * quantity )
+        var title = cartRow.getElementsByClassName('item-name')[0].innerText
+        var imageSrc = cartRow.getElementsByClassName('item-img')[0].src
+        var shopItemId = cartRow.getElementsByClassName('item-name')[0].id
+    addItemToLocalStorage(shopItemId, title, price, imageSrc, quantity)
     }
     total = Math.round(total * 100) / 100
     document.getElementsByClassName('simpleCart_total')[0].innerText = total + 'دج'
+        
 }
 
+function addItemToLocalStorage(shopItemId, title, price, imageSrc, quantity) {
+
+    var itemCart = [{
+                    productID: shopItemId,
+                    Title: title,
+                    Price: price,
+                    Qty: quantity,
+                    Img: imageSrc
+                }];
+
+                 if (localStorage.getItem('CartItem')) {
+                    itemCart = JSON.parse(localStorage.getItem('CartItem'))
+                    let match = itemCart.filter(item=>{
+                        if(item.Title == title)
+                        return true
+                    });
+                    if (match[0]) {
+                        itemCart = itemCart.map(item=>{
+                            if(item.Title == title)
+                                item.Qty = quantity;
+                            return item;
+                        });
+                        syncLS(itemCart)
+                        return
+                    }
+                   
+                }
+  
+            itemCart.push({
+                productID: shopItemId,
+                Title: title,
+                Price: price,
+                Qty: quantity,
+                Img: imageSrc
+            })
+            syncLS(itemCart)
+}
+
+function syncLS(itemCart){
+    localStorage.setItem('CartItem' , JSON.stringify(itemCart))
+}
+
+function getProductFromLS(){
+    if (localStorage.getItem('CartItem')) {
+        itemCart = JSON.parse(localStorage.getItem('CartItem'))
+        for (var i = 0; i < itemCart.length; i++){
+            var shopItemId = itemCart[i].productID
+            var title = itemCart[i].Title
+            var price = itemCart[i].Price
+            var quantity = itemCart[i].Qty
+            var imageSrc = itemCart[i].Img
+            addItemToCart(title, price, imageSrc, quantity, shopItemId)
+        }
+    }
+} 
