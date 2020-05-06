@@ -10,7 +10,7 @@ function ready () {
     document.getElementById('ContactForm1_contact-form-submit').addEventListener('click', emptyRow)
     document.getElementById('ContactForm1_contact-form-name').addEventListener('input', btcSentClicked)
     document.getElementById('ContactForm1_contact-form-adresse').addEventListener('input', btcSentClicked)
-    document.getElementById('ContactForm1_contact-form-tel').addEventListener('input', btcSentClicked)
+    document.getElementById('ContactForm1_contact-form-phone').addEventListener('input', btcSentClicked)
         }
     var CloseItemButton = document.getElementsByClassName('simpleCart_remove')
     for (var i = 0; i < CloseItemButton.length; i++) {
