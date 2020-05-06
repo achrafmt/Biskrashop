@@ -175,14 +175,16 @@ function updateCartTotal() {
         var cartItemContainers = document.getElementsByClassName('simpleCart_items')[i]
     var cartRows = cartItemContainers.getElementsByClassName('itemRow') 
 } 
-    document.getElementsByClassName('simpleCart_quantity')[0].innerText = cartRows.length
+    
     var total = 0
+    var Qtty = 0
     for (i = 0; i < cartRows.length; i++) {
         var cartRow = cartRows[i]
         var priceElement = cartRow.getElementsByClassName('item-price')[0]
         var quantityElement = cartRow.getElementsByClassName('item-quantity')[0]
         var price = parseFloat(priceElement.innerText)
         var quantity = parseFloat(quantityElement.innerText)
+        var Qtty = Qtty + quantity
         cartRow.getElementsByClassName('item-total')[0].innerText = (price * quantity) + 'دج'
         total = total + ( price * quantity )
         var title = cartRow.getElementsByClassName('item-name')[0].innerText
@@ -195,7 +197,7 @@ function updateCartTotal() {
     for (var i = 0 ; i < cartTotal.length; i++){
         document.getElementsByClassName('simpleCart_total')[i].innerText = total + 'دج'
     }
-  
+    document.getElementsByClassName('simpleCart_quantity')[0].innerText = Qtty
 }
 
 function addItemToLocalStorage(shopItemId, title, price, imageSrc, quantity) {
