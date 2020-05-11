@@ -299,12 +299,12 @@ function cleanLocalStorage(){
 
 function addClassNameListener(elemId, callback) {
     var elem = document.getElementById(elemId);
-    var lastClassName = elem.className;
+    var messageSent = 'تم الارسال sent.';
     window.setInterval( function() {   
-       var className = elem.className;
-        if (className !== lastClassName) {
+       var newMessage = elem.getElementsByTagName('span')[0].innerHTML;
+        if (newMessage == messageSent) {
             callback();   
-            lastClassName = className;
+            
         }
     },10);
 }
