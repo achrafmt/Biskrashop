@@ -14,4 +14,12 @@ a.setAttribute('href', link)
 a.innerHTML = `<img class="item_thumb" src="${im.src}"></img>`
 im.parentNode.replaceChild(a, im)
 }
-}}
+}
+if (document.getElementsByClassName('item-thumbnail')) {
+    var c = document.getElementsByClassName('item-thumbnail')
+    for(var i=0;i<= c.length; i++){
+        var a = c[i].getElementsByTagName('a')[0]
+        a.removeAttribute('target')
+    }
+    }
+}
