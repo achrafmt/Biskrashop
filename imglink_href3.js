@@ -17,7 +17,7 @@ im.parentNode.replaceChild(a, im)
 }
 if (document.getElementsByClassName('item-thumbnail')) {
     var c = document.getElementsByClassName('item-thumbnail')
-    for(var i=0;i<= c.length; i++){
+    for(var i=0;i < c.length; i++){
         if(c[i].getElementsByTagName('a')){
         var a = c[i].getElementsByTagName('a')[0]
         a.removeAttribute('target')
