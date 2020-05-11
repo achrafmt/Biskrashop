@@ -294,7 +294,7 @@ function cleanLocalStorage(){
     var itemCart = []
     syncLS(itemCart)
     updateCartTotal()
-    
+    alert('تم إرسال طلبك بنجاح! شكرا على التسوق')
 }
 
 function addClassNameListener(elemId, callback) {
