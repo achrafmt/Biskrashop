@@ -14,8 +14,6 @@ function ready () {
     document.getElementById('ContactForm1_contact-form-adresse').addEventListener('input', btcSentClicked)
     document.getElementById('ContactForm1_contact-form-phone').addEventListener('input', btcSentClicked)
         }
-        var menu = document.getElementsByClassName('catégorie')[0]
-        menu.addEventListener('click', mobMenuClicked)
     
     var CloseItemButton = document.getElementsByClassName('simpleCart_remove')
     for (var i = 0; i < CloseItemButton.length; i++) {
@@ -311,12 +309,4 @@ function addClassNameListener(elemId, callback) {
         }
     },10);
 }
-function mobMenuClicked(){
-    if (document.getElementById('catégorieBotton').classList.contains('active')) {
-    document.getElementById('catégorieBotton').removeAttribute('style')
-    document.getElementById('catégorieBotton').classList.remove('active')
-    return
-    }
-    document.getElementById('catégorieBotton').setAttribute ('style', 'max-height:0;')
-    document.getElementById('catégorieBotton').classList.add('active')
-}
+
