@@ -176,7 +176,6 @@ function updateCartTotal() {
         var cartItemContainers = document.getElementsByClassName('simpleCart_items')[i]
     var cartRows = cartItemContainers.getElementsByClassName('itemRow') 
 } 
-    
     var total = 0
     var Qtty = 0
     for (i = 0; i < cartRows.length; i++) {
@@ -198,7 +197,10 @@ function updateCartTotal() {
     for (var i = 0 ; i < cartTotal.length; i++){
         document.getElementsByClassName('simpleCart_total')[i].innerText = total + 'دج'
     }
-    document.getElementsByClassName('simpleCart_quantity')[0].innerText = Qtty
+    var simpleCartQtty = document.getElementsByClassName('simpleCart_quantity')
+    for (var i = 0; i < simpleCartQtty.length; i++){
+        simpleCartQtty[i].innerText = Qtty
+    }
 }
 
 function addItemToLocalStorage(shopItemId, title, price, imageSrc, quantity) {
