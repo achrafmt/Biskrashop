@@ -138,13 +138,15 @@ function addItemToCart(title, price, imageSrc, quantity, shopItemId) {
     var cartItemNames = cartItemss.getElementsByClassName('item-name')
     for (var i = 0; i < cartItemNames.length; i++) {
         if (cartItemNames[i].innerText == title) {
-            var k = cartItemNames[i].parentElement.getElementsByClassName('item-quantity')[0].innerText
-            if (quantity == 1){k = k + 1
+            var k = parseFloat(cartItemNames[i].parentElement.getElementsByClassName('item-quantity')[0].innerText)
+            if (quantity == 1){
+                cartItemNames[i].parentElement.getElementsByClassName('item-quantity')[0].innerText = k + 1 
                 updateCartTotal()
-            return} else if (k == quantity){
-            return
+                return
+            }else if (k == quantity){
+                return
             }else {
-                k = quantity
+                cartItemNames[i].parentElement.getElementsByClassName('item-quantity')[0].innerText = quantity
                 updateCartTotal()
                 return}
             }
@@ -172,7 +174,6 @@ function addItemToCart(title, price, imageSrc, quantity, shopItemId) {
     
     
 }
-
 function updateCartTotal() {
     var cartItemContainer = document.getElementsByClassName('simpleCart_items')
     for (var i = 0 ; i < cartItemContainer.length; i++){
