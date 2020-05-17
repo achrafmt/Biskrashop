@@ -23,13 +23,4 @@ if (document.getElementsByClassName('item-thumbnail')) {
         a.removeAttribute('target')
     }}
     }
-    if (document.getElementsByClassName('item_image')){
-    var d = document.getElementsByClassName('item_image')
-    for (var i =0; i < d.length; i++){
-        d[i].addEventListener('mouseover',diplayButton)
-        function diplayButton(){
-            di[i].document.getElementsByClassName('item_add')[0].setAttribute('style', 'display:block')
-            }
-        }
-    }
 }
