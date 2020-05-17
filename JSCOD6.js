@@ -150,7 +150,7 @@ function addItemToCart(title, price, imageSrc, quantity, shopItemId) {
                 return}
             }
             
-        }
+        
     }
     var cartRowContents = `
          <tr class="itemRow">
