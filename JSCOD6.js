@@ -142,12 +142,14 @@ function addItemToCart(title, price, imageSrc, quantity, shopItemId) {
             if (k == quantity){
                 if(quantity == 1){
                     k = k + 1
+                    updateCartTotal()
                     return
                 }else{
                 return}
             }else {
                 if(quantity == 1){
                     k = k + 1
+                    updateCartTotal()
                     return
                 }else{
                 k = quantity
