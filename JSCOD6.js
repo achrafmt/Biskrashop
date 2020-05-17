@@ -138,12 +138,21 @@ function addItemToCart(title, price, imageSrc, quantity, shopItemId) {
     var cartItemNames = cartItemss.getElementsByClassName('item-name')
     for (var i = 0; i < cartItemNames.length; i++) {
         if (cartItemNames[i].innerText == title) {
-            if (cartItemNames[i].parentElement.getElementsByClassName('item-quantity')[0].innerText == quantity){
-                return
+            var k = cartItemNames[i].parentElement.getElementsByClassName('item-quantity')[0].innerText
+            if (k == quantity){
+                if(quantity == 1){
+                    k = k + 1
+                    return
+                }else{
+                return}
             }else {
-                cartItemNames[i].parentElement.getElementsByClassName('item-quantity')[0].innerText = quantity
+                if(quantity == 1){
+                    k = k + 1
+                    return
+                }else{
+                k = quantity
                 updateCartTotal()
-                return
+                return}
             }
             
         }
@@ -152,7 +161,7 @@ function addItemToCart(title, price, imageSrc, quantity, shopItemId) {
          <tr class="itemRow">
             <td class="item-thumb"><img class="item-img" src="${imageSrc}"></td>
             <td class="item-name" id="${shopItemId}">${title}</td>
-            <td class="item-price">${price}</td>
+            <td class="item-price">${price} دج</td>
             <td class="item-decrement"><a href="javascript:;" class="simpleCart_decrement">-</a></td>
             <td class="item-quantity">${quantity}</td>
             <td class="item-increment"><a href="javascript:;" class="simpleCart_increment">+</a></td>
