@@ -139,19 +139,8 @@ function addItemToCart(title, price, imageSrc, quantity, shopItemId) {
     for (var i = 0; i < cartItemNames.length; i++) {
         if (cartItemNames[i].innerText == title) {
             var k = cartItemNames[i].parentElement.getElementsByClassName('item-quantity')[0].innerText
-            if (k == quantity){
-                if(quantity == 1){
-                    k = k + 1
-                    updateCartTotal()
-                    return
-                }else{
-                return}
+            if (k == quantity){return}
             }else {
-                if(quantity == 1){
-                    k = k + 1
-                    updateCartTotal()
-                    return
-                }else{
                 k = quantity
                 updateCartTotal()
                 return}
